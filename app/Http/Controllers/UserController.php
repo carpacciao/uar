@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Profile;
 
 class UserController extends Controller
 {
@@ -102,7 +103,12 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $c = Profile::where('user_id', $user->id);
+        if($c->count() == 1){
+            $c->delete();
+        }
         $user->delete();
+
         $users = User::all();
         return view('user.user', compact('users')); 
     }
