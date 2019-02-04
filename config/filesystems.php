@@ -60,7 +60,12 @@ return [
             'url' => env('APP_URL').'/storage/img',
             'visibility' => 'public',
         ],
-
+        'post_image' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/post_img'),
+            'url' => env('APP_URL').'/storage/post_img',
+            'visibility' => 'public',
+        ],
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

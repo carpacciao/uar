@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreArticleRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -14,7 +16,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        $articles = Article::all();
+        return view('article.article', compact('articles'));
     }
 
     /**
@@ -24,7 +27,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return view('article.article-create');
     }
 
     /**
@@ -33,9 +36,17 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreArticleRequest $request)
     {
-        //
+        $newarticle = new Article;
+        $newarticle->title = $request->title;
+        $newarticle->text = $request->text;
+        $newarticle->image = $request->image->store('', 'post_image');
+        $newarticle->user_id = Auth::user()->id;
+        $newarticle->save();
+        
+        $articles = Article::all();
+        return view('article.article', compact('articles'));
     }
 
     /**
