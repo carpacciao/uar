@@ -12,13 +12,14 @@
         <div class="col-4 mt-2">
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                    <img src="https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/_jcr_content/main-pars/image/visual-reverse-image-search-v2_1000x560.jpg"
-                        alt="" class="card-img-top">
+                    <img src="{{Storage::disk('post_image')->url($article->image)}}" alt="" class="card-img-top">
                     <h5 class="card-title">{{$article->title}}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{$article->user->email}}</h6>
                     <p class="card-text">{{$article->text}}</p>
                     <a href="#" class="card-link">Show</a>
+                    @can('update',$article, Article::class)
                     <a href="#" class="card-link">Edit</a>
+                    @endcan
                     <form style="display: inline;" action="{{route('article.destroy', ['article' => $article->id])}}"
                         method="POST">
                         @csrf

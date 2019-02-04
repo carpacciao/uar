@@ -14,6 +14,7 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $articles = Article::all();
@@ -44,7 +45,7 @@ class ArticleController extends Controller
         $newarticle->image = $request->image->store('', 'post_image');
         $newarticle->user_id = Auth::user()->id;
         $newarticle->save();
-        
+
         $articles = Article::all();
         return view('article.article', compact('articles'));
     }
@@ -80,7 +81,7 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        //
+        $this->authorize('update', $article);
     }
 
     /**
@@ -91,6 +92,9 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        //
+        $article->delete();
+
+        $articles = Article::all();
+        return view('article.article', compact('articles'));
     }
 }

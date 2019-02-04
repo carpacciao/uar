@@ -19,7 +19,13 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/user', 'UserController');
-Route::resource('/profile', 'ProfileController');
-Route::resource('/article', 'ArticleController');
-Route::resource('/role', 'RoleController');
+
+Route::middleware('auth')->group(function () {
+
+    Route::resource('/user', 'UserController');
+    Route::resource('/profile', 'ProfileController');
+    Route::resource('/article', 'ArticleController');
+    Route::resource('/role', 'RoleController');
+    
+});
+
