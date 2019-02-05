@@ -40,12 +40,16 @@
                 <td>{{$profile->user_id}}</td>
                 <td>
                     <a href="{{route('profile.show', ['user' => $profile->id])}}" class="btn btn-primary btn-sm">show</a>
+                    @can('update', $profile)
                     <a href="{{route('profile.edit', ['user' => $profile->id])}}" class="btn btn-warning btn-sm text-white">edit</a>
+                    @endcan
+                    @can('delete', $profile)
                     <form action="{{route('profile.destroy', ['user' => $profile->id])}}" style="display: inline" method="POST">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger btn-sm">delete</button>
                     </form>
+                    @endcan
                 </td>
             </tr>
             @endforeach

@@ -28,6 +28,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Article::class);
         return view('article.article-create');
     }
 
@@ -39,6 +40,7 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request)
     {
+        $this->authorize('create', Article::class);
         $newarticle = new Article;
         $newarticle->title = $request->title;
         $newarticle->text = $request->text;
@@ -58,7 +60,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        //
+        return view('article.article-show', compact('article'));
     }
 
     /**
@@ -69,7 +71,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        return view('article.article-edit', compact('article'));
     }
 
     /**
@@ -81,7 +83,17 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
+
         $this->authorize('update', $article);
+        $article->title = $request->title;
+        $article->text  = $request->text;
+        if(isset($request->image)){
+            $article->image = $request->image->store('', 'post_image');
+        }
+        $article->save();
+        $articles = Article::all();
+        return view('article.article', compact('articles'));
+
     }
 
     /**
@@ -93,6 +105,7 @@ class ArticleController extends Controller
     public function destroy(Article $article)
     {
         $article->delete();
+        $this->authorize('delete', $article);
 
         $articles = Article::all();
         return view('article.article', compact('articles'));

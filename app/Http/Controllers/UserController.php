@@ -30,6 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', User::class);
         $roles = Role::all();
         return view('user.user-create', compact('roles'));
     }
@@ -42,6 +43,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        $this->authorize('create', User::class);
         $nu = new User;
         $nu->email = $request->email;
         $nu->password = bcrypt($request->password);
@@ -71,6 +73,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         $roles = Role::all();
         return view('user.user-edit', compact('user', 'roles'));
     }
@@ -84,11 +87,14 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $this->authorize('update', $user);
         $user->email = $request->email;
         if (isset($request->password)) {
             $user->password = bcrypt($request->password);
         };
-        $user->role_id = $request->role;
+        if(isset($request->role)){
+            $user->role_id = $request->role;
+        }
         $user->save();
         $users = User::all();
         return view('user.user', compact('users'));        

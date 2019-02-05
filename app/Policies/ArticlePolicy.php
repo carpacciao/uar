@@ -25,7 +25,7 @@ class ArticlePolicy
      */
     public function view(User $user, Article $article)
     {
-        //
+        return true;
     }
 
     /**
@@ -36,7 +36,7 @@ class ArticlePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->isEditor();
     }
 
     /**

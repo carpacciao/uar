@@ -29,6 +29,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', User::class);
         $profile = Profile::where('user_id', Auth::user()->id)->count();
         return view('profile.profile-create', compact('profile'));
     }
@@ -41,7 +42,7 @@ class ProfileController extends Controller
      */
     public function store(StoreProfileRequest $request)
     {
-    
+        $this->authorize('create', User::class);
         $newprofile = new Profile;
         $newprofile->lastname = $request->lastname;
         $newprofile->firstname = $request->firstname;
@@ -74,6 +75,7 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
+        $this->authorize('update', $profile);
         return view('profile.profile-edit', compact('profile'));
     }
 
@@ -86,6 +88,7 @@ class ProfileController extends Controller
      */
     public function update(UpdateProfileRequest $request, Profile $profile)
     {
+        $this->authorize('update', $profile);
         $profile->lastname = $request->lastname;
         $profile->firstname = $request->firstname;
         $profile->gsm = $request->gsm;

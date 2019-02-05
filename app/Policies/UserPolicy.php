@@ -12,11 +12,13 @@ class UserPolicy
 
     public function before($user, $ability) {
 
-        return $user->isAdmin();
+        if($user->isAdmin()){
+            return true;
+        }
 
     }
 
-    /**
+    /*
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
@@ -25,7 +27,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-
+        return true;
     }
 
     /**
@@ -36,7 +38,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return false;
     }
 
     /**
@@ -46,9 +48,9 @@ class UserPolicy
      * @param  \App\User  $model
      * @return mixed
      */
-    public function update(User $user, User $article)
+    public function update(User $user, User $model)
     {
-        return $user->id == $article->user_id;
+        return $user->id == $model->id;
     }
 
     /**
@@ -60,7 +62,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->id == $article->user_id;
+        return $user->id == $model->id;
     }
 
     /**
