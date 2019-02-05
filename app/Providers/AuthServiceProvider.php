@@ -19,7 +19,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\User'  => 'App\Policies\UserPolicy',
         'App\Article'  => 'App\Policies\ArticlePolicy',
         'App\Profile'  => 'App\Policies\ProfilePolicy',
-    ];
+    ];  
 
     /**
      * Register any authentication / authorization services.

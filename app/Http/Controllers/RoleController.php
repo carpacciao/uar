@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Role;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreRoleRequest;
 
 class RoleController extends Controller
 {
@@ -14,7 +15,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('admin');
+        $roles = Role::all();
+        return view('role.role', compact('roles'));
     }
 
     /**
@@ -24,7 +27,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('admin');
+        return view('role.role-create');
     }
 
     /**
@@ -33,9 +37,14 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request)
     {
-        //
+        $this->authorize('admin');
+        $newrole = new Role;
+        $newrole->name = $request->role;
+        $newrole->save();
+        $roles = Role::all();
+        return view('role.role', compact('roles'));
     }
 
     /**
@@ -46,7 +55,8 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        //
+        $this->authorize('admin');
+        return view('role.role-show', compact('role'));
     }
 
     /**
@@ -57,7 +67,8 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        //
+        $this->authorize('admin');
+        return view('role.role-edit', compact('role'));
     }
 
     /**
@@ -67,9 +78,13 @@ class RoleController extends Controller
      * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(StoreRoleRequest $request, Role $role)
     {
-        //
+        $this->authorize('admin');
+        $role->name = $request->role;
+        $role->save();
+        $roles = Role::all();
+        return view('role.role', compact('roles'));
     }
 
     /**
@@ -80,6 +95,9 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        $this->authorize('admin');
+        $role->delete();
+        $roles = Role::all();
+        return view('role.role', compact('roles'));
     }
 }

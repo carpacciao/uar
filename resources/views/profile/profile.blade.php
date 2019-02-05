@@ -8,6 +8,11 @@
 
 @section('content')
 <div class="container">
+    @can('admin')
+    <h4>je suis admin</h4>
+
+    @endcan
+
     <table class="table table-striped">
     <thead>
         <tr>

@@ -128,6 +128,7 @@ return [
             'text' => 'Role',
             'url' => 'role/',
             'icon' => 'user',
+            'can' => 'admin',
         ],
     ],
 

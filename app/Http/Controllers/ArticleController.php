@@ -71,6 +71,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
+        $this->authorize('update', $article);
         return view('article.article-edit', compact('article'));
     }
 
@@ -104,8 +105,8 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        $article->delete();
         $this->authorize('delete', $article);
+        $article->delete();
 
         $articles = Article::all();
         return view('article.article', compact('articles'));

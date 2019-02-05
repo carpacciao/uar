@@ -29,7 +29,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', User::class);
+        $this->authorize('create', Profile::class);
         $profile = Profile::where('user_id', Auth::user()->id)->count();
         return view('profile.profile-create', compact('profile'));
     }
@@ -42,7 +42,7 @@ class ProfileController extends Controller
      */
     public function store(StoreProfileRequest $request)
     {
-        $this->authorize('create', User::class);
+        $this->authorize('create', Profile::class);
         $newprofile = new Profile;
         $newprofile->lastname = $request->lastname;
         $newprofile->firstname = $request->firstname;
