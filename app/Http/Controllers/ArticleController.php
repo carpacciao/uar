@@ -6,6 +6,10 @@ use App\Article;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreArticleRequest;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
+use App\Services\Intervention;
+
+
 
 class ArticleController extends Controller
 {
@@ -40,11 +44,12 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request)
     {
+        
         $this->authorize('create', Article::class);
         $newarticle = new Article;
         $newarticle->title = $request->title;
         $newarticle->text = $request->text;
-        $newarticle->image = $request->image->store('', 'post_image');
+        $newarticle->image = Intervention::storeImage($request->file('image'), 200, 200, 'post_image');
         $newarticle->user_id = Auth::user()->id;
         $newarticle->save();
 
@@ -89,7 +94,7 @@ class ArticleController extends Controller
         $article->title = $request->title;
         $article->text  = $request->text;
         if(isset($request->image)){
-            $article->image = $request->image->store('', 'post_image');
+            $article->image = Intervention::storeImage($request->file('image'), 200, 200, 'post_image');
         }
         $article->save();
         $articles = Article::all();
