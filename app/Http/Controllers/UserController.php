@@ -9,6 +9,7 @@ use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Profile;
+use App\Events\Mail;
 
 class UserController extends Controller
 {
@@ -117,5 +118,11 @@ class UserController extends Controller
 
         $users = User::all();
         return view('user.user', compact('users')); 
+    }
+
+
+    public function mail(Request $request){
+        event(new Mail($request));
+        return redirect()->back();
     }
 }

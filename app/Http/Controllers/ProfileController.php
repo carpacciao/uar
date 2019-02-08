@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateProfileRequest;
 use App\Services\Intervention;
 use Storage;
 
+
 class ProfileController extends Controller
 {
     /**
@@ -49,7 +50,7 @@ class ProfileController extends Controller
         $newprofile->firstname = $request->firstname;
         $newprofile->gsm = $request->gsm;
         $newprofile->birthday = $request->birthday;
-        $newprofile->picture = Intervention::storeImage($request->file('picture'), 150,150, 'pictures');
+        $newprofile->picture = Intervention::storeImageCrop($request->file('picture'), 150,150, 'pictures');
         $newprofile->user_id = Auth::user()->id;
         $newprofile->save();
 
@@ -95,7 +96,7 @@ class ProfileController extends Controller
         $profile->gsm = $request->gsm;
         $profile->birthday = $request->birthday;
         if(isset($request->picture)){
-            $profile->picture = Intervention::storeImage($request->file('picture'), 150, 150, 'pictures');
+            $profile->picture = Intervention::storeImageCrop($request->file('picture'), 150, 150, 'pictures');
         }
         $profile->save();
 
